@@ -1,0 +1,25 @@
+# Dépôt PUBLIC (GitHub Pages) : rien de sensible ne doit y entrer.
+# Le deploy.sh refuse déjà clés et secrets à la publication ; ceci est
+# la deuxième barrière — ce qui est ignoré ne peut même pas être mis en index.
+
+# Clés de compte de service Firebase / Google — n'ont RIEN à faire ici,
+# elles vivent dans ~/.config/bg-lanceur/ sur BG001.
+*service-account*.json
+*credentials*.json
+cle-sa*.json
+*.pem
+*.key
+*.p12
+*.pfx
+.env
+.env.*
+
+# Artefacts Firebase CLI
+.firebase/
+firebase-debug.log*
+firestore-debug.log*
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+*~

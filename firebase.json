@@ -1,0 +1,9 @@
+{
+  "//": "L'hébergement du portail est sur GitHub Pages, PAS Firebase Hosting.",
+  "//2": "Ce fichier ne sert qu'au déploiement des règles et index Firestore",
+  "//3": "vers le projet websitemaestro-872c7, par : firebase deploy --only firestore",
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  }
+}
