@@ -58,6 +58,8 @@ const els = {
   avisErreur: $("avis-erreur"),
   liste: $("liste"),
   sectionFiche: $("section-fiche"),
+  attenteActivation: $("attente-activation"),
+  zoneDemandes: $("zone-demandes"),
   ficheSous: $("fiche-sous"),
   ficheResume: $("fiche-resume"),
   ficheResumeTexte: $("fiche-resume-texte"),
@@ -260,6 +262,15 @@ function demarrer() {
 function afficherFiche(fiche) {
   els.sectionFiche.hidden = false;
   ficheRecue = !!fiche;
+
+  /* « approuvee » est posé par le pont de BG001, jamais par cette page (voir
+     firestore.rules : absent de champsFiche()). Tant qu'il n'est pas vrai, le
+     formulaire de demande reste cette page — et la règle Firestore refuserait
+     de toute façon l'écriture, donc le cacher évite un envoi qui échouerait
+     en silence. */
+  const approuvee = !!(fiche && fiche.approuvee);
+  els.attenteActivation.hidden = approuvee;
+  els.zoneDemandes.hidden = !approuvee;
 
   if (!fiche) {
     els.ficheSous.textContent =

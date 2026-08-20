@@ -67,13 +67,22 @@ service cloud.firestore {
       // déjà marquée « en ligne » ou de se fabriquer un état d'avancement.
       // hasOnly() borne la forme : un champ inventé fait échouer l'écriture
       // plutôt que d'atterrir dans le document que BG001 lira ensuite.
+      //
+      // « fiches/{uid}.approuvee == true » — c'est BG Informatique qui ouvre
+      // cette porte, une fois la fiche d'installation reçue et lue. Le champ
+      // est posé par le pont de BG001 (accès serveur, hors de champsFiche()) :
+      // aucune page web ne peut l'écrire, ici ou côté fiche. Le get() coûte
+      // une lecture Firestore de plus par tentative de création, et c'est le
+      // prix normal d'une porte vérifiée côté serveur plutôt que côté écran.
       allow create: if connecte()
                     && request.resource.data.clientUid == request.auth.uid
                     && request.resource.data.statut == 'recue'
                     && request.resource.data.keys().hasOnly(champsClient())
                     && request.resource.data.description is string
                     && request.resource.data.description.size() > 0
-                    && request.resource.data.description.size() <= 5000;
+                    && request.resource.data.description.size() <= 5000
+                    && get(/databases/$(database)/documents/fiches/$(request.auth.uid))
+                         .data.approuvee == true;
 
       // MISE À JOUR — une seule est permise : annuler une demande intacte.
       //
@@ -114,6 +123,12 @@ service cloud.firestore {
     //  jamais le demander — d'où « hasOnly » ci-dessous, qui refuse aussi tout
     //  champ inventé qu'une page modifiée essaierait d'ajouter.
     // -------------------------------------------------------------------------
+    // « verrouillee » ET « approuvee » sont DÉLIBÉRÉMENT absents d'ici. Tous
+    // deux sont posés par le pont de BG001 (accès serveur, qui ignore ces
+    // règles) : verrouillee quand le site est monté, approuvee quand BG
+    // Informatique ouvre l'accès aux demandes de modification. hasOnly()
+    // ci-dessous, sur create comme sur update, refuse donc toute écriture
+    // d'un client qui tenterait de se les accorder lui-même.
     function champsFiche() {
       return ['clientUid', 'clientNom', 'clientCourriel',
               'entreprise', 'contactPublic', 'adresse', 'horaires', 'reseaux',

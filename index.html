@@ -9,7 +9,7 @@
   <meta name="robots" content="noindex, nofollow">
   <title>Espace client — BG Informatique</title>
   <link rel="icon" href="favicon.png">
-  <link rel="stylesheet" href="css/style.css?v=20260813100554">
+  <link rel="stylesheet" href="css/style.css?v=20260819224426">
 </head>
 <body>
 
@@ -184,55 +184,73 @@
       </form>
     </section>
 
-    <!-- Nouvelle demande -->
-    <section class="carte">
-      <h2>Une modification pour votre site&nbsp;?</h2>
-      <p class="sous">Décrivez ce que vous souhaitez changer, en français, comme vous le diriez à voix haute.</p>
-
-      <form id="formulaire">
-        <div class="champ">
-          <label for="type">Type de demande</label>
-          <select id="type" required>
-            <option value="" selected disabled>Choisir…</option>
-            <option>Modifier un texte, une image ou une information</option>
-            <option>Ajouter une section ou une page</option>
-            <option>Problème avec le site</option>
-            <option>Question ou autre demande</option>
-          </select>
-        </div>
-
-        <div class="champ">
-          <fieldset>
-            <legend>C'est urgent&nbsp;?</legend>
-            <div class="urgences">
-              <label><input type="radio" name="urgence" value="Quand possible" checked> Quand possible</label>
-              <label><input type="radio" name="urgence" value="Cette semaine"> Cette semaine</label>
-              <label><input type="radio" name="urgence" value="Urgent"> Urgent</label>
-            </div>
-          </fieldset>
-        </div>
-
-        <div class="champ">
-          <label for="page">Page ou section concernée <span class="indice">(facultatif)</span></label>
-          <input type="text" id="page" placeholder="Ex. : page d'accueil, section Contact…">
-        </div>
-
-        <div class="champ">
-          <label for="description">Décrivez votre demande</label>
-          <textarea id="description" required
-            placeholder="Ex. : Remplacer le numéro de téléphone par 418-555-1234 sur la page Contact."></textarea>
-        </div>
-
-        <button type="submit" class="btn btn-principal" id="btn-envoyer">Envoyer ma demande</button>
-      </form>
+    <!-- En attente d'activation : BG Informatique doit avoir lu la fiche
+         d'installation avant d'ouvrir les demandes de modification. Sans
+         cet écran, un client verrait un formulaire de demande qui refuse
+         silencieusement d'écrire (la règle Firestore le bloque déjà), sans
+         comprendre pourquoi. -->
+    <section class="carte" id="attente-activation" hidden>
+      <h2>Votre accès aux demandes est en attente</h2>
+      <p class="sous">
+        BG Informatique doit d'abord prendre connaissance de votre fiche
+        d'installation. Vous pourrez envoyer des demandes de modification dès
+        que votre accès sera activé.
+      </p>
     </section>
 
-    <!-- Suivi -->
-    <section class="carte">
-      <h2>Vos demandes</h2>
-      <p class="sous">Chaque demande est lue et appliquée par BG Informatique. Son état se met à jour ici.</p>
-      <div id="liste"></div>
-    </section>
+    <div id="zone-demandes" hidden>
+
+      <!-- Nouvelle demande -->
+      <section class="carte">
+        <h2>Une modification pour votre site&nbsp;?</h2>
+        <p class="sous">Décrivez ce que vous souhaitez changer, en français, comme vous le diriez à voix haute.</p>
+
+        <form id="formulaire">
+          <div class="champ">
+            <label for="type">Type de demande</label>
+            <select id="type" required>
+              <option value="" selected disabled>Choisir…</option>
+              <option>Modifier un texte, une image ou une information</option>
+              <option>Ajouter une section ou une page</option>
+              <option>Problème avec le site</option>
+              <option>Question ou autre demande</option>
+            </select>
+          </div>
+
+          <div class="champ">
+            <fieldset>
+              <legend>C'est urgent&nbsp;?</legend>
+              <div class="urgences">
+                <label><input type="radio" name="urgence" value="Quand possible" checked> Quand possible</label>
+                <label><input type="radio" name="urgence" value="Cette semaine"> Cette semaine</label>
+                <label><input type="radio" name="urgence" value="Urgent"> Urgent</label>
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="champ">
+            <label for="page">Page ou section concernée <span class="indice">(facultatif)</span></label>
+            <input type="text" id="page" placeholder="Ex. : page d'accueil, section Contact…">
+          </div>
+
+          <div class="champ">
+            <label for="description">Décrivez votre demande</label>
+            <textarea id="description" required
+              placeholder="Ex. : Remplacer le numéro de téléphone par 418-555-1234 sur la page Contact."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-principal" id="btn-envoyer">Envoyer ma demande</button>
+        </form>
+      </section>
+
+      <!-- Suivi -->
+      <section class="carte">
+        <h2>Vos demandes</h2>
+        <p class="sous">Chaque demande est lue et appliquée par BG Informatique. Son état se met à jour ici.</p>
+        <div id="liste"></div>
+      </section>
+
+    </div>
 
   </main>
 
@@ -251,6 +269,6 @@
     </div>
   </noscript>
 
-  <script type="module" src="js/app.js?v=20260813100554"></script>
+  <script type="module" src="js/app.js?v=20260819224426"></script>
 </body>
 </html>
